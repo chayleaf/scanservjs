@@ -1,11 +1,12 @@
 #!/usr/bin/env node
 const express = require('express');
-const application = require('./application');
+const Application = require('./application');
+const application = new Application('/etc/scanservjs/config.local.js');
 const config = application.config();
 const app = express();
 const ExpressConfigurer = require('./express-configurer');
 
-ExpressConfigurer.with(app)
+ExpressConfigurer.with(app, application)
   .encoding()
   .statics()
   .basicAuth()

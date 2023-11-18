@@ -4,48 +4,31 @@ const DeviceIdParser = require('./classes/device-id-parser');
 const Device = require('./classes/device');
 const FileInfo = require('./classes/file-info');
 const FilterBuilder = require('./classes/filter-builder');
+const ScanimageCommand = require('./classes/scanimage-command');
 const System = require('./classes/system');
 const UserOptions = require('./classes/user-options');
 
-module.exports = new class Application {
-  constructor() {
-    this._log = null;
-    this._userOptions = null;
-    /** @type {Configuration} */
-    this._config = null;
-    /** @type {ScanimageCommand} */
-    this._scanimageCommand = null;
+module.exports = class Application {
+  constructor(configPath) {
+    this._log = require('loglevel').getLogger('Application');
+    this._userOptions = new UserOptions(configPath);
+    this._config = new Config(this._userOptions);
+    this._scanimageCommand = new ScanimageCommand(this.config());
   }
 
   log() {
-    if (this._log === null) {
-      this._log = require('loglevel').getLogger('Application');
-    }
     return this._log;
   }
 
   userOptions() {
-    if (this._userOptions === null) {
-      this._userOptions = new UserOptions('../../config/config.local.js');
-    }
     return this._userOptions;
   }
 
-  /**
-   * @returns {Configuration}
-   */
   config() {
-    if (this._config === null) {
-      this._config = new Config(this.userOptions());
-    }
     return this._config;
   }
 
   scanimageCommand() {
-    if (this._scanimageCommand === null) {
-      const ScanimageCommand = require('./classes/scanimage-command');
-      this._scanimageCommand = new ScanimageCommand(this.config());
-    }
     return this._scanimageCommand;
   }
 

@@ -6,7 +6,8 @@ const FileInfo = require('../src/classes/file-info');
 const Request = require('../src/classes/request');
 const UserOptions = require('../src/classes/user-options');
 
-const application = require('../src/application');
+const Application = require('../src/application');
+const application = new Application();
 const scanimageCommand = application.scanimageCommand();
 
 const requestScan = {

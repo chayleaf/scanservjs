@@ -3,8 +3,8 @@ const assert = require('assert');
 const Context = require('../src/classes/context');
 const UserOptions = require('../src/classes/user-options');
 
-const application = require('../src/application');
-application._userOptions = new UserOptions();
+const Application = require('../src/application');
+const application = new Application();
 
 const config = application.config();
 
