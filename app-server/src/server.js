@@ -1,10 +1,18 @@
 #!/usr/bin/env node
+const { program } = require('commander');
 const express = require('express');
 const Application = require('./application');
-const application = new Application('/etc/scanservjs/config.local.js');
+const ExpressConfigurer = require('./express-configurer');
+
+program
+  .option('--config', 'Config file path', '/etc/scanservjs/config.local.js')
+  .parse(process.argv);
+
+const options = program.opts();
+
+const application = new Application(options.config);
 const config = application.config();
 const app = express();
-const ExpressConfigurer = require('./express-configurer');
 
 ExpressConfigurer.with(app, application)
   .encoding()
