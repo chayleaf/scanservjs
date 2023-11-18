@@ -40,13 +40,8 @@ npm clean-install --omit=dev --only=prod --loglevel=error --prefix $DIR_LIB
 find $DIR_LIB -name "*.map" -type f -delete
 
 # Move and tidy up files
-mv -v $DIR_LIB/data/preview/* $DIR_RUNTIME/preview/
 mv -v $DIR_LIB/config/* $DIR_ETC/
-rmdir -p $DIR_LIB/data/preview \
-  $DIR_LIB/config
-
-# Create symlinks
-ln -sv $PATH_RUNTIME $DIR_LIB/data
+rmdir $DIR_LIB/config
 
 # systemd
 cat > $DIR_SYSTEMD/scanservjs.service << EOF
@@ -61,6 +56,7 @@ User=$USER
 Group=$GROUP
 Environment=PATH=/usr/local/bin:/usr/bin:/bin
 Environment=NODE_ENV=production
+StateDirectory=$APP_NAME
 WorkingDirectory=$PATH_LIB
 
 [Install]
